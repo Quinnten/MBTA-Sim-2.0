@@ -17,6 +17,8 @@ public class MBTA {
   public HashMap<Station, List<Passenger>> stationPass = new HashMap<>();
   public HashMap<Train, List<Passenger>> trainPass = new HashMap<>();
   public HashMap<Passenger, Station> nextStop = new HashMap<>();
+  public HashMap<Passenger, Boolean> onTrain = new HashMap<>();
+
 
 
 
@@ -58,6 +60,8 @@ public class MBTA {
     stationPass.get(stationList.get(0)).add(p);
     trips.put(p, stationList);
     nextStop.put(p, stationList.get(1));
+    Boolean b = false;
+    onTrain.put(p, b);
   }
 
   // Return normally if initial simulation conditions are satisfied, otherwise
@@ -90,7 +94,7 @@ public class MBTA {
     for (Map.Entry<Passenger, List<Station>> mapEl : trips.entrySet()) {
       Passenger p = mapEl.getKey();
 
-      if (!nextStop.get(p) == null) {
+      if (!nextStop.get(p).equals(null)) {
         throw new UnsupportedOperationException("passenger checkEnd failed");
       }
     }
@@ -186,11 +190,15 @@ public class MBTA {
   public void boardTrain(Train t, Passenger p, Station s) {
     trainPass.get(t).add(p);
     stationPass.get(s).remove(p);
+    Boolean tr = true;
+    onTrain.replace(p, tr);
   }
 
   public void deboardTrain(Train t, Passenger p, Station s) {
     trainPass.get(t).remove(p);
     stationPass.get(s).add(p);
+    Boolean b = false;
+    onTrain.replace(p, b);
 
     List<Station> journey = trips.get(p);
     
@@ -224,12 +232,60 @@ public class MBTA {
     for (Map.Entry<Passenger, List<Station>> mapEl : trips.entrySet()) {
       Passenger p = mapEl.getKey();
 
-      if (!nextStop.get(p) == null) {
+      if (!nextStop.get(p).equals(null)) {
         return false;
       }
     }
-
     return true;
+  }
+
+  public boolean onTrain(Passenger p) {
+    return onTrain.get(p);
+  }
+
+  public Train deboardTrain(Passenger p) {
+    for (Map.Entry<Train, List<Passenger>> mapEl : trainPass.entrySet()) {
+      Train t = mapEl.getKey();
+      List<Passenger> values = mapEl.getValue();
+
+      for (Passenger pass : values) {
+        if (p.equals(pass)) {
+          return t;
+        }
+      }
+    }
+    return null;
+  }
+
+  public Train boardTrain(Passenger p) {
+    for (Map.Entry<Train, List<Station>> mapEl : lines.entrySet()) {
+      Train t = mapEl.getKey();
+      List<Station> values = mapEl.getValue();
+
+      if (values.contains(passCurrentStation(p))) {
+        for (Station s : values) {
+          if (s.equals(nextStop.get(p))) {
+            return t;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+
+  public Station passCurrentStation(Passenger p) {
+    for (Map.Entry<Station, List<Passenger>> mapEl : stationPass.entrySet()) {
+      Station s = mapEl.getKey();
+      List<Passenger> passengers = mapEl.getValue();
+
+      for (Passenger pass: passengers) {
+        if (p.equals(pass)) {
+          return s;
+        }
+      }
+    }
+      return null;
   }
 }
 
