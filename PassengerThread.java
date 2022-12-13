@@ -16,9 +16,14 @@ public class PassengerThread extends Thread {
   public void run(){
     while(!mbta.nextStop.get(p).equals(null)) {
       if (mbta.onTrain(p)) {
-        log.passenger_deboards(p, mbta.deboardTrain(p), mbta.nextStop.get(p));
+        Train t = mbta.deboardTrain(p);
+        Station s = mbta.nextStop.get(p);
+        mbta.deboardTrain(t, p, s);
+        log.passenger_deboards(p, t, s);
       } else {
-        log.passenger_boards(p, mbta.boardTrain(p), mbta.passCurrentStation(p));
+        Train t = mbta.boardTrain(p);
+        Station s = mbta.passCurrentStation(p);
+        log.passenger_boards(p, t, s);
       }
     }
   }
