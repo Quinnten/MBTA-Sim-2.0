@@ -26,4 +26,6 @@ public class DeboardEvent implements Event {
   public void replayAndCheck(MBTA mbta) {
     if(!mbta.trainPass.get(t).contains(p) || !s.equals(mbta.nextStop.get(p)) || !mbta.trainStop.get(t).equals(s));
   }
+
+  deboardTrain(t, p, s)
 }
