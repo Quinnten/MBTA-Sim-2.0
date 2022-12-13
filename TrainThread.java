@@ -17,7 +17,10 @@ public class TrainThread extends Thread {
     try {
       while (mbta.running()) {
       sleep(500);
-      log.train_moves(t, mbta.currentStation(t), mbta.nextStation(t));
+      Station s1 = mbta.currentStation(t);
+      Station s2 = mbta.nextStation(t);
+      mbta.moveTrain(t, s1, s2);
+      log.train_moves(t, s1, s2);
       }
     } catch(Exception e) {
       throw new UnsupportedOperationException("error with run");
