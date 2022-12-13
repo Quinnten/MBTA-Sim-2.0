@@ -90,7 +90,7 @@ public class MBTA {
     for (Map.Entry<Passenger, List<Station>> mapEl : trips.entrySet()) {
       Passenger p = mapEl.getKey();
 
-      if (!nextStop.get(p).equals(null)) {
+      if (!nextStop.get(p) == null) {
         throw new UnsupportedOperationException("passenger checkEnd failed");
       }
     }
@@ -202,5 +202,35 @@ public class MBTA {
       nextStop.replace(p, journey.get(index + 1));
     }
   }
+
+  public Station nextStation(Train t) {
+    List<Station> stations = lines.get(t);
+    int index = stations.indexOf(currentStation(t));
+
+    if (forward.get(t)) {
+      return stations.get(index + 1);
+    } else {
+      return stations.get(index - 1);
+    }
+  }
  
+
+  public Station currentStation(Train t) {
+    return trainStop.get(t);
+ }
+
+
+  public boolean running() {
+    for (Map.Entry<Passenger, List<Station>> mapEl : trips.entrySet()) {
+      Passenger p = mapEl.getKey();
+
+      if (!nextStop.get(p) == null) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
+
+
