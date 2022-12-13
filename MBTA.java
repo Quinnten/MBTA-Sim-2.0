@@ -91,17 +91,32 @@ public class MBTA {
   // Return normally if final simulation conditions are satisfied, otherwise
   // raises an exception
   public void checkEnd() {
-    for (Map.Entry<Passenger, List<Station>> mapEl : trips.entrySet()) {
-      Passenger p = mapEl.getKey();
+    // for (Map.Entry<Passenger, List<Station>> mapEl : trips.entrySet()) {
+    //   Passenger p = mapEl.getKey();
+
+    //   if (!nextStop.get(p).equals(null)) {
+    //     throw new UnsupportedOperationException("passenger checkEnd failed");
+    //   }
+    // }
+    for (Passenger p : trips.keySet()) {
+      //Passenger p = mapEl.getKey();
 
       if (!nextStop.get(p).equals(null)) {
         throw new UnsupportedOperationException("passenger checkEnd failed");
       }
     }
 
-    for (Map.Entry<Train, List<Station>> mapEl : lines.entrySet()) {
-      Train t = mapEl.getKey();
-      List<Station> values = mapEl.getValue();
+    // for (Map.Entry<Train, List<Station>> mapEl : lines.entrySet()) {
+    //   Train t = mapEl.getKey();
+    //   List<Station> values = mapEl.getValue();
+
+    //   if (!trainPass.get(t).isEmpty()) {
+    //     throw new UnsupportedOperationException("train checkEnd failed");
+    //   }
+    // }
+    for (Train t : lines.keySet()) {
+     //  Train t = mapEl.getKey();
+      // List<Station> values = mapEl.getValue();
 
       if (!trainPass.get(t).isEmpty()) {
         throw new UnsupportedOperationException("train checkEnd failed");
