@@ -35,13 +35,14 @@ public class MoveEvent implements Event {
     int index = stations.indexOf(s1);
 
     if (mbta.forward.get(t)) {
-      if (!s1.equals(stations.get(index + 1))) {
+      if (!s2.equals(stations.get(index + 1))) {
         throw new UnsupportedOperationException("error 2 in moving train");
       }
     } else {
-      if (!s1.equals(stations.get(index - 1))) {
+      if (!s2.equals(stations.get(index - 1))) {
         throw new UnsupportedOperationException("error 3 in moving train");
       }
     }
+    mbta.moveTrain(t, s1, s2);
   }
 }
