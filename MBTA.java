@@ -183,12 +183,12 @@ public class MBTA {
     }
   }
 
-  public void boardTrain(Passenger p, Train t, Station s) {
+  public void boardTrain(Train t, Passenger p, Station s) {
     trainPass.get(t).add(p);
     stationPass.get(s).remove(p);
   }
 
-  public void deboardTrain(Passenger p, Train t, Station s) {
+  public void deboardTrain(Train t, Passenger p, Station s) {
     trainPass.get(t).remove(p);
     stationPass.get(s).add(p);
 
